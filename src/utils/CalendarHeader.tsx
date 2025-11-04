@@ -31,6 +31,7 @@ export default function CalendarHeader({
         alert("Please select a valid .json file.");
       }
     }
+    event.target.value = "";
   };
 
   useEffect(() => {
