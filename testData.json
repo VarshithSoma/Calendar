@@ -1,0 +1,37 @@
+[
+  {
+    "date": "2025-11-04",
+    "title": "Team Sync Meeting",
+    "time": "10:00"
+  },
+  {
+    "date": "2025-11-04",
+    "title": "Dentist Appointment",
+    "time": "14:30"
+  },
+  {
+    "date": "2025-11-07",
+    "title": "Project Deadline",
+    "time": "17:00"
+  },
+  {
+    "date": "2025-11-12",
+    "title": "Design Review",
+    "time": "11:00"
+  },
+  {
+    "date": "2025-11-19",
+    "title": "Client Call",
+    "time": "15:00"
+  },
+  {
+    "date": "2025-11-21",
+    "title": "Coding",
+    "time": "09:00"
+  },
+  {
+    "date": "2025-11-28",
+    "title": "Submit Project",
+    "time": "23:59"
+  }
+]

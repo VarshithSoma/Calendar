@@ -4,7 +4,7 @@ interface CalendarHeaderProps {
   currentDate: Date;
   onPrev: () => void;
   onNext: () => void;
-  onDataUpdate: (newData: string) => void;
+  onDataUpdate: (newData: Event[]) => void;
 }
 interface NextBtn {
   fun: () => void;
