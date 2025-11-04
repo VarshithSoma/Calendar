@@ -1,73 +1,70 @@
-# React + TypeScript + Vite
+# Calendar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a interactive calendar application built with React, TypeScript, Date-fns and Tailwind CSS. It allows users to manage their schedules by adding events manually or by importing them from a JSON file.
 
-Currently, two official plugins are available:
+## Deployed Link
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+You can view and use the live application here:
 
-## React Compiler
+[https://calendar-one-red.vercel.app/](https://calendar-one-red.vercel.app/)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- **Add Events Manually**: Click the "+ Add Event" button to open a modal and fill in event details, including a color.
+- **Import Events from JSON**: Use the "Upload JSON" button to bulk-add events from a formatted JSON file.
+- **Event Collision Detection**: The UI highlights events that have overlapping times on the same day.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Screenshot
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
+![Main Calendar View](./scrnsht.png)
+
+## How to Use
+
+### 1. Add an Event Manually
+
+1. Click the "+ Add Event" button.
+2. A modal will appear. Fill in the Title, Date, Start Time, End Time, and choose a Color.
+3. Click "Create Event". The event will be added to the calendar and saved to your session.
+
+### 2. Upload JSON Data
+
+1. Create a `.json` file that contains an array of event objects.
+2. Click the "?" (Help) button to see the exact format required.
+3. Click the "Upload JSON" button and select your file.
+
+## JSON Format
+
+Your JSON file must be an array of objects with the following properties:
+
+```json
+[
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+    "date": "YYYY-MM-DD",
+    "startTime": "HH:mm",
+    "endTime": "HH:mm",
+    "title": "Your Event Title",
+    "color": "#RRGGBB"
   },
-])
+  {
+    "date": "2025-11-20",
+    "startTime": "10:00",
+    "endTime": "11:30",
+    "title": "Team Sync",
+    "color": "#f87171"
+  }
+]
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+dependencies used in this project:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+```json
+ {
+    "@tailwindcss/vite": "^4.1.16",
+    "date-fns": "^4.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.16"
   },
-])
 ```
