@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 
 interface Event {
   date: string;
+  startTime: string;
+  endTime: string;
   title: string;
-  time: string;
+  color: string;
 }
 
 interface CalendarHeaderProps {
@@ -93,7 +95,7 @@ export default function CalendarHeader({
           </p>
         </div>
 
-        <div className="flex flex-col items-end gap-3 flex-shrink-0">
+        <div className="flex flex-col items-end gap-3 shrink-0">
           <div className="relative inline-block">
             <input
               type="file"
@@ -164,61 +166,87 @@ interface AddEventModalProps {
 function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [color, setColor] = useState("#3b82f6");
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title || !date || !time) {
+    if (!title || !date || !startTime || !endTime) {
       alert("Please fill out all fields.");
       return;
     }
 
-    onAddEvent({ title, date, time });
+    onAddEvent({ title, date, startTime, endTime, color });
 
     setTitle("");
     setDate("");
-    setTime("");
+    setStartTime("");
+    setEndTime("");
+    setColor("#3b82f6");
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity">
-      <div className="relative w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity animate-in fade-in duration-200">
+      <div className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-gray-700 text-white hover:bg-gray-900"
+          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
           aria-label="Close modal"
         >
-          ×
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </button>
 
-        <h3 className="mb-4 text-2xl font-semibold">Add New Event</h3>
+        {/* Header */}
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900">Create New Event</h3>
+          <p className="text-sm text-gray-500 mt-1">
+            Fill in the details for your event
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Title Field */}
+          <div>
             <label
               htmlFor="title"
-              className="mb-1 block font-medium text-gray-700"
+              className="block text-sm font-semibold text-gray-700 mb-2"
             >
-              Title
+              Event Title
             </label>
             <input
               type="text"
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              placeholder="e.g., Team Meeting"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
               required
             />
           </div>
 
-          <div className="mb-4">
+          {/* Date Field */}
+          <div>
             <label
               htmlFor="date"
-              className="mb-1 block font-medium text-gray-700"
+              className="block text-sm font-semibold text-gray-700 mb-2"
             >
               Date
             </label>
@@ -227,42 +255,84 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
               id="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
               required
             />
           </div>
 
-          <div className="mb-4">
+          {/* Time Fields */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="startTime"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                Start Time
+              </label>
+              <input
+                type="time"
+                id="startTime"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="endTime"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                End Time
+              </label>
+              <input
+                type="time"
+                id="endTime"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Color Picker */}
+          <div>
             <label
-              htmlFor="time"
-              className="mb-1 block font-medium text-gray-700"
+              htmlFor="color"
+              className="block text-sm font-semibold text-gray-700 mb-2"
             >
-              Time
+              Event Color
             </label>
-            <input
-              type="time"
-              id="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              required
-            />
+            <div className="flex items-center gap-3">
+              <input
+                type="color"
+                id="color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                className="h-12 w-20 rounded-lg border border-gray-300 cursor-pointer"
+                required
+              />
+              <span className="text-sm text-gray-600 font-mono">{color}</span>
+            </div>
           </div>
 
-          <div className="mt-6 flex justify-end gap-3">
+          {/* Action Buttons */}
+          <div className="flex gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg bg-gray-200 px-5 py-2.5 font-medium text-gray-800 hover:bg-gray-300"
+              className="flex-1 rounded-lg bg-gray-100 px-5 py-2.5 font-semibold text-gray-700 hover:bg-gray-200 transition-colors"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="rounded-lg bg-black px-5 py-2.5 font-medium text-white hover:bg-neutral-800"
+              className="flex-1 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-2.5 font-semibold text-white hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-500/30 transition-all"
             >
-              Add Event
+              Create Event
             </button>
           </div>
         </form>

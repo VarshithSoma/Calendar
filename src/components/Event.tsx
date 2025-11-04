@@ -1,10 +1,11 @@
 import React from "react";
 import { format } from "date-fns";
-
 interface Event {
   date: string;
+  startTime: string;
+  endTime: string;
   title: string;
-  time: string;
+  color: string;
 }
 
 interface EventProps {
@@ -29,9 +30,10 @@ const EventModal: React.FC<EventProps> = ({ day, events, onClose }) => {
 
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-800 text-xl leading-none"
+              className="text-gray-500 hover:text-gray-800 text-2xl leading-none"
+              aria-label="Close modal"
             >
-              X
+              &times;
             </button>
           </div>
 
@@ -40,10 +42,14 @@ const EventModal: React.FC<EventProps> = ({ day, events, onClose }) => {
               events.map((ev, idx) => (
                 <div
                   key={idx}
-                  className="border border-gray-200 rounded-lg p-3 shadow-sm"
+                  className="border border-gray-200 rounded-lg p-3 shadow-sm border-l-4"
+                  style={{ borderLeftColor: ev.color }}
                 >
                   <p className="font-medium text-gray-900">{ev.title}</p>
-                  <p className="text-sm text-gray-600">{ev.time}</p>
+
+                  <p className="text-sm text-gray-600">
+                    {ev.startTime} - {ev.endTime}
+                  </p>
                 </div>
               ))
             ) : (

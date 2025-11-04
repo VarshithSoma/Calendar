@@ -3,10 +3,11 @@ import { addDays } from "date-fns";
 import DayCell from "./DayCell";
 interface Event {
   date: string;
+  startTime: string;
+  endTime: string;
   title: string;
-  time: string;
+  color: string;
 }
-
 interface CalendarGridProps {
   startDate: Date;
   endDate: Date;
@@ -14,7 +15,6 @@ interface CalendarGridProps {
   events: Event[];
   onDayClick: (day: Date) => void;
 }
-
 const CalendarGrid: React.FC<CalendarGridProps> = ({
   startDate,
   endDate,
@@ -38,18 +38,14 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
           onDayClick={() => onDayClick(anDay)}
         />
       );
-
       day = addDays(day, 1);
     }
-
     rows.push(
       <div className="grid grid-cols-7 " key={weekStartDate.toISOString()}>
         {days}
       </div>
     );
   }
-
   return <div>{rows}</div>;
 };
-
 export default CalendarGrid;

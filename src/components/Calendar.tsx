@@ -15,8 +15,10 @@ import EventModal from "../components/Event";
 
 interface Event {
   date: string;
+  startTime: string;
+  endTime: string;
   title: string;
-  time: string;
+  color: string;
 }
 
 const Calendar: React.FC = () => {
