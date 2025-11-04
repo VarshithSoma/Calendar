@@ -1,7 +1,16 @@
 import "./App.css";
+import Calendar from "./components/Calendar";
+import Header from "./components/Header";
 
 function App() {
-  return <div className="bg-red-100 p-10">hello world</div>;
+  return (
+    <div className="flex h-screen w-full">
+      <Header />
+      <div className="flex-1 flex flex-col overflow-auto bg-neutral-50">
+        <Calendar></Calendar>
+      </div>
+    </div>
+  );
 }
 
 export default App;
