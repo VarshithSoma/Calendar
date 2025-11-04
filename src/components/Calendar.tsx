@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   startOfMonth,
   endOfMonth,
@@ -22,6 +22,7 @@ interface Event {
 const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [dataFromChild, setDataFromChild] = useState<string>("");
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
@@ -69,6 +70,11 @@ const Calendar: React.FC = () => {
   const selectedDayEvents = selectedDate
     ? events.filter((ev) => isSameDay(new Date(ev.date), selectedDate))
     : [];
+  useEffect(() => {
+    if (dataFromChild) {
+      console.log("Data from child has changed:", dataFromChild);
+    }
+  }, [dataFromChild]);
 
   return (
     <div className="w-full max-w-6xl mx-auto mt-10 px-4">
@@ -76,6 +82,7 @@ const Calendar: React.FC = () => {
         currentDate={currentDate}
         onPrev={() => setCurrentDate(subMonths(currentDate, 1))}
         onNext={() => setCurrentDate(addMonths(currentDate, 1))}
+        onDataUpdate={setDataFromChild}
       />
       <WeekDays />
       <CalendarGrid

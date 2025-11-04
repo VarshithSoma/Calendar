@@ -1,8 +1,10 @@
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
 interface CalendarHeaderProps {
   currentDate: Date;
   onPrev: () => void;
   onNext: () => void;
+  onDataUpdate: (newData: string) => void;
 }
 interface NextBtn {
   fun: () => void;
@@ -14,7 +16,44 @@ export default function CalendarHeader({
   currentDate,
   onPrev,
   onNext,
+  onDataUpdate,
 }: CalendarHeaderProps) {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (file.type === "application/json") {
+        setSelectedFile(file);
+        console.log("File selected:", file.name);
+      } else {
+        setSelectedFile(null);
+        alert("Please select a valid .json file.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (selectedFile) {
+      console.log("Processing file:", selectedFile.name);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const textContent = event.target?.result as string;
+        try {
+          const jsonData = JSON.parse(textContent);
+          console.log(jsonData);
+          onDataUpdate(jsonData);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      reader.onerror = (error) => {
+        console.error("Error reading file:", error);
+        alert("Failed to read the file.");
+      };
+      reader.readAsText(selectedFile);
+    }
+  }, [selectedFile]);
   return (
     <div className="flex items-start justify-between mb-6 gap-6">
       <div>
@@ -40,9 +79,13 @@ export default function CalendarHeader({
       </div>
 
       <div>
-        <button className="bg-black text-white px-5 py-2.5 rounded-lg font-medium hover:bg-neutral-800 transition-colors flex-shrink-0">
-          Add Event
-        </button>
+        <input
+          type="file"
+          id="jsonFile"
+          accept="application/json"
+          className="bg-black text-white px-5 py-2.5 rounded-lg font-medium hover:bg-neutral-800 transition-colors flex-shrink-0"
+          onChange={handleFileChange} // <-- ADDED THIS
+        ></input>
       </div>
     </div>
   );
