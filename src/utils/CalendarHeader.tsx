@@ -32,11 +32,11 @@ export default function CalendarHeader({
 }: CalendarHeaderProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormatModalOpen, setIsFormatModalOpen] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-
       if (file.type === "application/json") {
         setSelectedFile(file);
       } else {
@@ -44,15 +44,12 @@ export default function CalendarHeader({
         alert("Please select a valid .json file.");
       }
     }
-
     event.target.value = "";
   };
 
   useEffect(() => {
     if (!selectedFile) return;
-
     const reader = new FileReader();
-
     reader.onload = (event) => {
       try {
         const text = event.target?.result as string;
@@ -63,12 +60,10 @@ export default function CalendarHeader({
         alert("Error parsing JSON. Check file format.");
       }
     };
-
     reader.onerror = (error) => {
       console.error("Error reading file:", error);
       alert("Failed to read the file.");
     };
-
     reader.readAsText(selectedFile);
   }, [selectedFile, onDataUpdate]);
 
@@ -88,14 +83,13 @@ export default function CalendarHeader({
               <ArrowButton fun={onNext} text="→" aria_label="Next month" />
             </div>
           </h2>
-
           <p className="text-base font-light text-neutral-500 max-w-lg mb-4">
             Here are all your planned events. You will find information for each
             event, and you can also plan new ones.
           </p>
         </div>
 
-        <div className="flex flex-col items-end gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           <div className="relative inline-block">
             <input
               type="file"
@@ -106,10 +100,10 @@ export default function CalendarHeader({
             />
             <label
               htmlFor="jsonFile"
-              className="bg-black text-white px-5 py-2.5 rounded-lg font-medium hover:bg-neutral-800 transition-colors cursor-pointer inline-flex items-center gap-2"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 hover:border-neutral-400 transition-colors text-sm font-medium cursor-pointer"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -121,30 +115,66 @@ export default function CalendarHeader({
                   d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                 />
               </svg>
-              <div>Choose JSON File</div>
+              Upload JSON
             </label>
           </div>
 
-          <div>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white hover:bg-blue-700"
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 hover:border-neutral-400 transition-colors text-sm font-medium cursor-pointer"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              + Add Event Manually
-            </button>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Add Event
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsFormatModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 hover:border-neutral-400 transition-colors text-sm font-medium"
+            title="Show JSON format guide"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Help
+          </button>
         </div>
       </div>
-
       <AddEventModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAddEvent={handleModalSubmit}
       />
+
+      <JsonFormatModal
+        isOpen={isFormatModalOpen}
+        onClose={() => setIsFormatModalOpen(false)}
+      />
     </>
   );
 }
-
 function ArrowButton({ fun, text, aria_label }: ArrowButtonProps) {
   return (
     <button
@@ -156,7 +186,6 @@ function ArrowButton({ fun, text, aria_label }: ArrowButtonProps) {
     </button>
   );
 }
-
 interface AddEventModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -174,14 +203,11 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!title || !date || !startTime || !endTime) {
       alert("Please fill out all fields.");
       return;
     }
-
     onAddEvent({ title, date, startTime, endTime, color });
-
     setTitle("");
     setDate("");
     setStartTime("");
@@ -218,7 +244,6 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
             Fill in the details for your event
           </p>
         </div>
-
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label
@@ -237,7 +262,6 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
               required
             />
           </div>
-
           <div>
             <label
               htmlFor="date"
@@ -271,7 +295,6 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
                 required
               />
             </div>
-
             <div>
               <label
                 htmlFor="endTime"
@@ -289,7 +312,6 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
               />
             </div>
           </div>
-
           <div>
             <label
               htmlFor="color"
@@ -317,7 +339,6 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
             >
               Cancel
             </button>
-
             <button
               type="submit"
               className="flex-1 rounded-lg bg-black px-5 py-2.5 font-semibold text-white hover:bg-neutral-800 shadow-lg shadow-black/20 transition-all"
@@ -326,6 +347,77 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  );
+}
+
+interface JsonFormatModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function JsonFormatModal({ isOpen, onClose }: JsonFormatModalProps) {
+  if (!isOpen) return null;
+  const jsonString = `[
+  {
+    "date": "2025-11-03",
+    "startTime": "09:00",
+    "endTime": "10:00",
+    "title": "Team Standup Meeting",
+    "color": "#3B82F6"
+  },
+
+  {
+    "date": "2025-11-05",
+    "startTime": "11:30",
+    "endTime": "12:15",
+    "title": "Client Call - Project Atlas",
+    "color": "#10B981"
+  },
+  {
+    "date": "2025-11-10",
+    "startTime": "16:00",
+    "endTime": "17:00",
+    "title": "Backend Bug Fixing Sprint",
+    "color": "#EF4444"
+  },
+]
+`;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+          aria-label="Close modal"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900">
+            JSON Format Guide
+          </h3>
+          <p className="text-sm text-gray-500 mt-1">
+            Your file must be an array of event objects, like this:
+          </p>
+        </div>
+        <pre className="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto text-sm">
+          {jsonString}
+        </pre>
       </div>
     </div>
   );

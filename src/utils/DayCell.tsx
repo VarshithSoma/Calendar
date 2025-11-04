@@ -167,7 +167,7 @@ const DayCell: React.FC<DayCellProps> = ({
 
       {remainingEventsCount > 0 && (
         <div className="mt-2.5 pt-1.5">
-          <button className="text-[11px] font-semibold text-neutral-600 hover:text-neutral-800 underline">
+          <button className="text-[11px] font-semibold text-neutral-600 hover:text-neutral-800 underline cursor-pointer">
             And {remainingEventsCount} more
           </button>
         </div>
