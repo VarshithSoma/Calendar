@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useEffect, useState } from "react";
 import {
   startOfMonth,
@@ -55,7 +54,6 @@ const Calendar: React.FC = () => {
         currentDate={currentDate}
         onPrev={() => setCurrentDate(subMonths(currentDate, 1))}
         onNext={() => setCurrentDate(addMonths(currentDate, 1))}
-        // @ts-expect-error
         onDataUpdate={setDataFromChild}
         onManualAdd={handleManualAdd}
       />
