@@ -193,7 +193,6 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity animate-in fade-in duration-200">
       <div className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl animate-in zoom-in-95 duration-200">
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
@@ -213,8 +212,6 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
             />
           </svg>
         </button>
-
-        {/* Header */}
         <div className="mb-6">
           <h3 className="text-2xl font-bold text-gray-900">Create New Event</h3>
           <p className="text-sm text-gray-500 mt-1">
@@ -223,7 +220,6 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Title Field */}
           <div>
             <label
               htmlFor="title"
@@ -237,12 +233,11 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g., Team Meeting"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900/20 transition-all"
               required
             />
           </div>
 
-          {/* Date Field */}
           <div>
             <label
               htmlFor="date"
@@ -255,12 +250,10 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
               id="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+              className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900/20 transition-all"
               required
             />
           </div>
-
-          {/* Time Fields */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label
@@ -274,7 +267,7 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
                 id="startTime"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900/20 transition-all"
                 required
               />
             </div>
@@ -291,13 +284,12 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
                 id="endTime"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900/20 transition-all"
                 required
               />
             </div>
           </div>
 
-          {/* Color Picker */}
           <div>
             <label
               htmlFor="color"
@@ -317,20 +309,18 @@ function AddEventModal({ isOpen, onClose, onAddEvent }: AddEventModalProps) {
               <span className="text-sm text-gray-600 font-mono">{color}</span>
             </div>
           </div>
-
-          {/* Action Buttons */}
           <div className="flex gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-lg bg-gray-100 px-5 py-2.5 font-semibold text-gray-700 hover:bg-gray-200 transition-colors"
+              className="flex-1 rounded-lg border-2 border-gray-300 px-5 py-2.5 font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="flex-1 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-2.5 font-semibold text-white hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-500/30 transition-all"
+              className="flex-1 rounded-lg bg-black px-5 py-2.5 font-semibold text-white hover:bg-neutral-800 shadow-lg shadow-black/20 transition-all"
             >
               Create Event
             </button>
