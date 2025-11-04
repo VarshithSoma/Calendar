@@ -43,7 +43,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
     }
 
     rows.push(
-      <div className="grid grid-cols-7" key={weekStartDate.toISOString()}>
+      <div className="grid grid-cols-7 " key={weekStartDate.toISOString()}>
         {days}
       </div>
     );

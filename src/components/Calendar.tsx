@@ -45,6 +45,9 @@ const Calendar: React.FC = () => {
       setEventsData((prevEvents) => [...prevEvents, ...dataFromChild]);
     }
   }, [dataFromChild]);
+  const handleManualAdd = (newEvent: Event) => {
+    setEventsData((prev) => [...prev, newEvent]);
+  };
 
   return (
     <div className="w-full max-w-6xl mx-auto mt-10 px-4">
@@ -54,6 +57,7 @@ const Calendar: React.FC = () => {
         onNext={() => setCurrentDate(addMonths(currentDate, 1))}
         // @ts-expect-error
         onDataUpdate={setDataFromChild}
+        onManualAdd={handleManualAdd}
       />
       <WeekDays />
       <CalendarGrid

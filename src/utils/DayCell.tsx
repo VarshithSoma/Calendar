@@ -29,32 +29,43 @@ const DayCell: React.FC<DayCellProps> = ({
   return (
     <div
       onClick={onDayClick}
-      className={`
-        border-t border-neutral-200 p-3 h-40 relative group
-        flex flex-col
-        ${isCurrentMonth ? "cursor-pointer hover:bg-neutral-50" : "text-neutral-400"}
-        ${isToday ? "bg-orange-50" : ""}
+      className={`p-4 min-h-[180px] relative flex flex-col font-sans
+        ${isCurrentMonth ? "cursor-pointer hover:bg-neutral-50" : "bg-neutral-50/30"}
+        ${isToday ? "bg-orange-50/40" : "bg-white"}
       `}
     >
-      <span
-        className={`text-lg font-semibold ${isToday ? "text-orange-600" : ""}`}
+      <div
+        className={`h-0.5 w-full mb-2.5 ${isToday ? "bg-orange-500" : "bg-neutral-300"}`}
+      />
+
+      <div
+        className={`text-3xl font-bold mb-3
+          ${isToday ? "text-orange-500" : isCurrentMonth ? "text-neutral-800" : "text-neutral-400"}
+        `}
       >
         {format(day, "dd")}
-      </span>
+      </div>
 
-      <div className="mt-2 space-y-1 text-sm overflow-hidden">
+      <div className="flex-1 space-y-2.5 text-xs">
         {eventsToShow.map((ev, i) => (
-          <div
-            key={i}
-            className="bg-white p-2 shadow rounded border border-neutral-200"
-          >
-            <p className="font-medium truncate">{ev.title}</p>
+          <div key={i} className="group">
+            <p
+              className={`font-semibold leading-tight mb-0.5 ${
+                isCurrentMonth ? "text-neutral-700" : "text-neutral-500"
+              }`}
+            >
+              {ev.title}
+            </p>
+            <p className="text-neutral-500 text-[11px]">{ev.time}</p>
           </div>
         ))}
       </div>
+
       {remainingEventsCount > 0 && (
-        <div className="text-xs text-blue-600 font-semibold pt-1 hover:underline mt-auto">
-          + {remainingEventsCount} more
+        <div className="mt-2.5 pt-1.5">
+          <button className="text-[11px] font-semibold text-neutral-600 hover:text-neutral-800 underline">
+            And {remainingEventsCount} more
+          </button>
         </div>
       )}
     </div>
